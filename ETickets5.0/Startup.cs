@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.EntityFrameworkCore;
+using ETickets5._0.Data.Services;
 
 namespace ETickets5._0
 {
@@ -28,6 +29,16 @@ namespace ETickets5._0
         {
             //dbcontext configuration
             services.AddDbContext<AppDbContext>(options =>options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
+            
+            //service Configuration
+            services.AddScoped<IActorsService, ActorService>();
+            services.AddScoped<IProducersService, ProducersService>();
+            services.AddScoped<ICinemaService, CinemaService>();
+            services.AddScoped<IMovieService, MovieService>();   
+
+
+
+
 
             services.AddControllersWithViews();
         }
@@ -56,8 +67,10 @@ namespace ETickets5._0
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Movies}/{action=Index}/{id?}");
             });
+
+            AppDbInitilizer.Seed(app);
         }
     }
 }

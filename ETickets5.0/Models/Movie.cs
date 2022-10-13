@@ -1,4 +1,5 @@
-﻿using ETickets5._0.Data.Enums;
+﻿using ETickets5._0.Data.Base;
+using ETickets5._0.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,14 +7,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ETickets5._0.Models
 {
-    public class Movie
+    public class Movie :IEntityBase
     {
 
         [Key]
-        public int Id { get; set; } 
+        public int Id { get; set; }
+        [Display(Name = "Name")]
         public string Name { get; set; }
+        [Display(Name = "Description")]
         public string Description   { get; set; }
-        public double Price { get; set; }   
+        public Double Price { get; set; }
+        [Display(Name = "image")]
         public string ImageURL{ get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
