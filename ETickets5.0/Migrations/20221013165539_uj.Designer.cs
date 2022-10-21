@@ -4,14 +4,16 @@ using ETickets5._0.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ETickets5._0.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221013165539_uj")]
+    partial class uj
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -209,29 +211,6 @@ namespace ETickets5._0.Migrations
                     b.ToTable("Producers");
                 });
 
-            modelBuilder.Entity("ETickets5._0.Models.ShoppingCartItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MovieId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ShoppingCartId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("ShoppingCartItems");
-                });
-
             modelBuilder.Entity("ETickets5._0.Models.Actor_Movie", b =>
                 {
                     b.HasOne("ETickets5._0.Models.Actor", "Actor")
@@ -287,15 +266,6 @@ namespace ETickets5._0.Migrations
                     b.Navigation("Movie");
 
                     b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("ETickets5._0.Models.ShoppingCartItem", b =>
-                {
-                    b.HasOne("ETickets5._0.Models.Movie", "Movie")
-                        .WithMany()
-                        .HasForeignKey("MovieId");
-
-                    b.Navigation("Movie");
                 });
 
             modelBuilder.Entity("ETickets5._0.Models.Actor", b =>

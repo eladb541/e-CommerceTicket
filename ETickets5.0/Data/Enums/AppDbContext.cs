@@ -33,7 +33,9 @@ namespace ETickets5._0.Data
         public DbSet<Cinima> Cinimas { get; set; }
         public DbSet<Producer> Producers { get; set; }
         public DbSet<Drinks> Drinks { get; set; }
-    
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
 
     }
 }

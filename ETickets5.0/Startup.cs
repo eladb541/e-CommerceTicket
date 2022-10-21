@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.EntityFrameworkCore;
 using ETickets5._0.Data.Services;
+using Microsoft.AspNetCore.Http;
+using ETickets5._0.Data.Cart;
 
 namespace ETickets5._0
 {
@@ -34,12 +36,10 @@ namespace ETickets5._0
             services.AddScoped<IActorsService, ActorService>();
             services.AddScoped<IProducersService, ProducersService>();
             services.AddScoped<ICinemaService, CinemaService>();
-            services.AddScoped<IMovieService, MovieService>();   
-
-
-
-
-
+            services.AddScoped<IMovieService, MovieService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
+            services.AddSession();
             services.AddControllersWithViews();
         }
 
@@ -60,6 +60,7 @@ namespace ETickets5._0
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
 
             app.UseAuthorization();
 
