@@ -1,10 +1,12 @@
 ﻿using ETickets5._0.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ETickets5._0.Data.Cart
 {
@@ -80,5 +82,14 @@ namespace ETickets5._0.Data.Cart
             return total;
 
         }
+        public async Task ClearShoppingCart()
+        {
+
+            var items = await _context.ShoppingCartItems.Where(n => n.ShoppingCartId == ShoppingCartId).ToListAsync();
+            _context.ShoppingCartItems.RemoveRange(items);
+            await _context.SaveChangesAsync();
+        
+        }
+       
     }
 }

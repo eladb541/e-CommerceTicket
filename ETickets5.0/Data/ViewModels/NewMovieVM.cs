@@ -20,7 +20,7 @@ namespace ETickets5._0.Models
         public string Description   { get; set; }
          [Display(Name = "Price")]
         [Required(ErrorMessage = "Price is required")]
-        [Range(30, Double.PositiveInfinity,ErrorMessage ="the price must be at least 30 nis")]
+        [Range(1, Double.PositiveInfinity,ErrorMessage ="the price must be at least 1 nis")]
         public Double Price { get; set; }
         [Display(Name = "image")]
         [Required(ErrorMessage = "image is required")]

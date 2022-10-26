@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ETickets5._0.Models
 {
@@ -7,7 +8,7 @@ namespace ETickets5._0.Models
 
 
 
-
+        [Key]
         public int Id { get; set; }
         public int Amount { get; set; }
         public double Price { get; set; }
