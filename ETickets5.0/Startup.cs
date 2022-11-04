@@ -14,6 +14,9 @@ using Microsoft.EntityFrameworkCore;
 using ETickets5._0.Data.Services;
 using Microsoft.AspNetCore.Http;
 using ETickets5._0.Data.Cart;
+using Microsoft.AspNetCore.Identity;
+using ETickets5._0.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace ETickets5._0
 {
@@ -38,9 +41,21 @@ namespace ETickets5._0
             services.AddScoped<ICinemaService, CinemaService>();
             services.AddScoped<IMovieService, MovieService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<IOrderService, OrdersService>();
+            services.AddScoped<IOrdersService, OrderService>();
             services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
             services.AddSession();
+
+
+
+            //Autentication & Autorization
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+            services.AddMemoryCache();
+            services.AddSession();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            });
+
             services.AddControllersWithViews();
         }
 
@@ -63,6 +78,11 @@ namespace ETickets5._0
             app.UseRouting();
             app.UseSession();
 
+            app.UseAuthentication();
+            app.UseAuthorization();    
+
+
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -73,6 +93,7 @@ namespace ETickets5._0
             });
 
             AppDbInitilizer.Seed(app);
+            AppDbInitilizer.SeedUsersAndRolesAsync(app).Wait();
         }
     }
 }

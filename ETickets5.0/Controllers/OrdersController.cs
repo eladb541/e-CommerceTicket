@@ -10,22 +10,23 @@ namespace ETickets5._0.Controllers
     {
         private readonly IMovieService _movieService;
         private readonly ShoppingCart _shoppingCart;
-        private readonly IOrderService _orderService;
-        public OrdersController(IMovieService movieService, ShoppingCart shoppingCart, IOrderService orderService)
+        private readonly IOrdersService _ordersService;
+       
+        public OrdersController(IMovieService movieService, ShoppingCart shoppingCart, IOrdersService ordersService)
         {
             _movieService = movieService;
             _shoppingCart = shoppingCart;
-            _orderService = orderService;
+            _ordersService = ordersService;
         }
 
-        public async Task< IActionResult> Index()
+
+        public async Task<IActionResult>Index()
         {
             string userId = "";
-            var orders = await _orderService.GetOrdersByUserIdAsync(userId);
+            var orders = await _ordersService.GetOrdersByUserIdAndRoleAsync(userId, "User");
             return View(orders);
+
         }
-
-
         public IActionResult ShoppingCart()
         {
             var items=_shoppingCart.GetShoppingCartItems();
@@ -61,13 +62,13 @@ namespace ETickets5._0.Controllers
 
 
 
-        public async Task<IActionResult>CompleteOrder()
+        public async Task<IActionResult> CompleteOrder()
         {
             var items = _shoppingCart.GetShoppingCartItems();
             string userId = "";
             string userEmailAdress = "";
-
-            await _orderService.StoreOrderAsync(items, userId, userEmailAdress);
+          
+           await _ordersService.StoreOrderAsync(items, userId, userEmailAdress);
             await _shoppingCart.ClearShoppingCart();
             return View("CompleteOrder");
 
