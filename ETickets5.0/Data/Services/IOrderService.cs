@@ -4,9 +4,10 @@ using System.Threading.Tasks;
 
 namespace ETickets5._0.Data.Services
 {
-    public interface IOrderService
+    public interface IOrdersService
     {
-        Task StoreOrderAsync(List<ShoppingCartItem> items, string userId, string useremailAdress);
-        Task<List<Order>>GetOrdersByUserIdAsync(string userId);
+        Task StoreOrderAsync(List<ShoppingCartItem> items, string userId, string userEmailAddress);
+        Task<List<Order>> GetOrdersByUserIdAndRoleAsync(string userId, string userRole);
+        Task GetOrdersByUserIdAndRoleAsync(string userId);
     }
 }
