@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ETickets5._0.Data.ViewModels
 {
@@ -10,13 +11,15 @@ namespace ETickets5._0.Data.ViewModels
         [Required(ErrorMessage = "Full Name is required")]
         public string Fullname { get; set; }
 
+       
         [Display(Name ="email address")]
         [Required(ErrorMessage ="email address is required")]
         public string EmailAddress { get; set; }
 
 
         [Required]
-        [DataType(DataType.Password)]
+        [StringLength(2000,ErrorMessage = "the password must cotain 8 characters at least ", MinimumLength =8 )]
+        [DataType(DataType.Password) ]
         public string Password { get; set; }
 
         [Display(Name = "ConfirmPassword")]

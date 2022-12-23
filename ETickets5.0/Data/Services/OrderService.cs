@@ -18,16 +18,17 @@ namespace ETickets5._0.Data.Services
         public async Task<List<Order>> GetOrdersByUserIdAndRoleAsync(string userId, string userRole)
         {
 
-            var orders = await _context.Orders.Include(n => n.OrderItems).ThenInclude(n => n.Movie).Where(n => n.UserId ==
-            userId).ToListAsync();
+            var orders = await _context.Orders.Include(n => n.OrderItems).ThenInclude(n => n.Movie).Include(n=>n.user).ToListAsync();
+            if (userRole!="Admin")
+            {
+                orders = orders.Where(n => n.UserId == userId).ToList();
+            }
+            
             return orders;
 
         }
 
-        public Task GetOrdersByUserIdAndRoleAsync(string userId)
-        {
-            throw new System.NotImplementedException();
-        }
+    
 
         public async Task StoreOrderAsync(List<ShoppingCartItem> items, string userId, string userEmailAddress)
         {

@@ -2,6 +2,7 @@
 using ETickets5._0.Data.Services;
 using ETickets5._0.Data.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ETickets5._0.Controllers
@@ -22,8 +23,9 @@ namespace ETickets5._0.Controllers
 
         public async Task<IActionResult>Index()
         {
-            string userId = "";
-            var orders = await _ordersService.GetOrdersByUserIdAndRoleAsync(userId, "User");
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userrole = User.FindFirstValue(ClaimTypes.Role);
+            var orders = await _ordersService.GetOrdersByUserIdAndRoleAsync(userId, userrole);
             return View(orders);
 
         }
@@ -65,10 +67,10 @@ namespace ETickets5._0.Controllers
         public async Task<IActionResult> CompleteOrder()
         {
             var items = _shoppingCart.GetShoppingCartItems();
-            string userId = "";
-            string userEmailAdress = "";
-          
-           await _ordersService.StoreOrderAsync(items, userId, userEmailAdress);
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userEmailAdress = User.FindFirstValue(ClaimTypes.Email);
+
+            await _ordersService.StoreOrderAsync(items, userId, userEmailAdress);
             await _shoppingCart.ClearShoppingCart();
             return View("CompleteOrder");
 
