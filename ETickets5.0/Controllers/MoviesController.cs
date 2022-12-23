@@ -44,8 +44,17 @@ namespace ETickets5._0.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            var movieDetails = await _service.getmovieById(id);
-            return View(movieDetails);
+            var moviedetails = await _service.getmovieById(id);
+            if (moviedetails==null)
+           
+            {
+                return RedirectToAction("Error404", "Error");
+            }
+            
+            
+            
+            return View(moviedetails);  
+           
         }
         public async Task<IActionResult> Create()
         {
@@ -79,7 +88,10 @@ namespace ETickets5._0.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var moviedetails=await _service.getmovieById(id);
-            if (moviedetails == null) return View("NotFound");
+            if (moviedetails == null)
+            {
+                return RedirectToAction("Error404", "Error");
+            }
 
 
             var response = new NewMovieVM()
@@ -107,7 +119,10 @@ namespace ETickets5._0.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id,NewMovieVM movie)
         {
-            if (id != movie.Id) return View("NotFound");
+            if (id != movie.Id)
+            {
+                return RedirectToAction("Error404", "Error");
+            }
 
 
             if (!ModelState.IsValid)

@@ -44,7 +44,7 @@ namespace ETickets5._0.Controllers
             var cinimas = await _service.GetByIdasync(id);
             if (cinimas == null)
             {
-                return View("NotFound");
+                return RedirectToAction("Error404", "Error");
             }
             else
             {
@@ -56,7 +56,7 @@ namespace ETickets5._0.Controllers
             var cinimas = await _service.GetByIdasync(id);
             if (cinimas == null)
             {
-                return View("NotFound");
+                return RedirectToAction("Error404", "Error");
             }
             else
             {
@@ -81,7 +81,7 @@ namespace ETickets5._0.Controllers
             var cinima = await _service.GetByIdasync(id);
             if (cinima == null)
             {
-                return View("NotFound");
+                return RedirectToAction("Error404", "Error");
             }
             else
             {
@@ -95,7 +95,8 @@ namespace ETickets5._0.Controllers
             var cinima = await _service.GetByIdasync(id);
             if (cinima == null)
             {
-                return View("NotFound");
+               
+                return RedirectToAction("Error404", "Error");
             }
             await _service.Deleteasync(id);
 

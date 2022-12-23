@@ -44,7 +44,7 @@ namespace ETickets5._0.Controllers
             var actorDetail = await _service.GetByIdasync(id);
             if (actorDetail == null) 
             {
-                return View("NotFound");
+                return RedirectToAction("Error404", "Error");
             }
             else
             {
@@ -57,7 +57,7 @@ namespace ETickets5._0.Controllers
             var actorDetail = await _service.GetByIdasync(id);
             if (actorDetail == null)
             {
-                return View("NotFound");
+                return RedirectToAction("Error404", "Error");
             }
             else
             {
@@ -82,7 +82,7 @@ namespace ETickets5._0.Controllers
             var actorDetail = await _service.GetByIdasync(id);
             if (actorDetail == null)
             {
-                return View("NotFound");
+                return RedirectToAction("Error404", "Error");
             }
             else
             {
@@ -96,7 +96,7 @@ namespace ETickets5._0.Controllers
             var actorDetail = await _service.GetByIdasync(id);
             if (actorDetail == null)
             {
-                return View("NotFound");
+                return RedirectToAction("Error404", "Error");
             }
             await _service.Deleteasync(id);
            
