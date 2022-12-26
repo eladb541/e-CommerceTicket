@@ -33,8 +33,8 @@ namespace ETickets5._0.Controllers
             return View(users);
 
         }
-        
-        
+
+
 
         public IActionResult Login() => View(new LoginVM());
 
@@ -46,7 +46,7 @@ namespace ETickets5._0.Controllers
                 return View(loginVM);
             }
             var user = await _userManager.FindByEmailAsync(loginVM.EmailAddress);
-            if (user!=null)
+            if (user != null)
             {
                 var passwordCheck = await _userManager.CheckPasswordAsync(user, loginVM.Password);
                 if (passwordCheck)
@@ -97,9 +97,9 @@ namespace ETickets5._0.Controllers
                 TempData["Error"] = "there is a problem with password,please check that the password  contains an uppercase letter,  a lowercase letter, a special character that is not a letter or a number and one digit at least";
                 return View(registerVM);
             }
-               
 
-            
+
+
         }
         [HttpPost]
         public async Task<IActionResult> Logout()
@@ -108,63 +108,59 @@ namespace ETickets5._0.Controllers
             return RedirectToAction("Index", "Movies");
 
         }
-        
-        public async Task<IActionResult>EditUser(string id)
+
+        public async Task<IActionResult> EditUser(string id)
         {
             var user = await _userManager.FindByIdAsync(id);//find user
-            if (user==null)
-            {
+            if (user == null)
                 return RedirectToAction("Error404", "Error");
-            }
-            //var new = new ApplicationUser
-            //{
-            //    EmailAddress = user.Email,
-            //    Fullname = user.FullName,
-            //    EUMVid=user.Id
+            else
+            {
+                EditUserVM editUserVM = new EditUserVM
+                {
 
-            //};
-            return View(user);
+                    id = user.Id,
+                    Fullname = user.FullName,
+                    EmailAddress = user.Email,
+
+                };
+                return View(editUserVM);
+            }
 
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditUser(ApplicationUser user)
+        public async Task<IActionResult> EditUser(EditUserVM editUserVM)
         {
-          
-            var olduser = await _userManager.FindByIdAsync(user.Id);//find user
-            if (olduser == null)
+            ApplicationUser user = await _userManager.FindByIdAsync(editUserVM.id);
+            if (user != null)
             {
-                return RedirectToAction("Error404", "Error");
-            }
-            //else
-            //{
-            //    var newUser = new ApplicationUser() {
-            //    FullName = model.Fullname,
-            //    UserName = model.EmailAddress,
-            //    Email = model.EmailAddress
-                
-            //    };
+                user.FullName = editUserVM.Fullname;
+                user.Email = editUserVM.EmailAddress;
+                user.UserName = editUserVM.EmailAddress;
+                user.PasswordHash = _passwordHasher.HashPassword(user, editUserVM.Password);
 
-                var newuseremail = await _userManager.FindByEmailAsync(user.Email);
-                if (newuseremail != null)
+                var emailnewcheck = await _userManager.FindByEmailAsync(editUserVM.EmailAddress);
+                if (emailnewcheck != null)
                 {
                     TempData["Error"] = "This email address is already in use";
-                    return View(olduser);
+                    return View(editUserVM);
                 }
-
-                var result = await _userManager.UpdateAsync(olduser);
+                var result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
-                {
-                    return RedirectToAction("Users", "Accouunt");
-                }
-
-                else
                 {
                     return RedirectToAction("Index", "Movies");
                 }
+                else
+                {
+                    TempData["Error"] = "there is a problem with password,please check that the password  contains an uppercase letter,  a lowercase letter, a special character that is not a letter or a number and one digit at least";
+                    return View(editUserVM);
+                }
 
-                
-
+            }
+            else
+            {
+                return RedirectToAction("Users", "Account");
             }
 
 
@@ -172,4 +168,5 @@ namespace ETickets5._0.Controllers
         }
 
     }
+}
 
